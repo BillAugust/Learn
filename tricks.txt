@@ -1,0 +1,5 @@
+To kill a program
+sudo ps -A
+when you see the results, find your program, Say it's named'p'
+next to p is a number n
+type kill <n> (no brakets)
