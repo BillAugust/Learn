@@ -7,6 +7,8 @@ import time
 import pigpio
 
 class MotorControl:
+    newlftSpeed = 0
+    speedList = list()
     def getTimeInMillis(self):
         return (int)(time.time()*1000.0)
     
@@ -34,12 +36,9 @@ class MotorControl:
         self.missionStart = (int)(time.time()*1000.0)
         self.tenTime = 0
         self.delT = 0
-        self.speedList = list()
-
 
     def setMissionStart(self, startTime):
-        self.missionStart = startTime
-        self.tenTime = self.missionStart
+        self.missionStart = startTime 
 
     def getEncPin(self):
         return self.encPin
@@ -58,8 +57,6 @@ class MotorControl:
         self.power = power
         self.pw.ChangeDutyCycle(power)
         self.dir=1   #forward
-        self.modCnt = 10 #default.could be changed by setModCnt
-
 
     def bck(self, power, adjusting = False):
         if(abs(power) > 100.0):
@@ -91,7 +88,7 @@ class MotorControl:
             self.fwd(int(self.power), True)
         print("spd ", self.power, " deg ", deg)
 
-    def curPower(self):
+    def curSpeed(self):
         return self.power
                        
     def stop(self):
@@ -116,37 +113,31 @@ class MotorControl:
         if(pow > 100):pow = 100
         self.power = pow
         
+        
     def getPower(self):
-        return int(self.power)
+        return self.power
     
-    def getNumChanged(self):
-        return self.numChange
+    def changed(self):
+        return False
     
     def getDt(self):
         return self.delT
-    
-    def setModCnt(self, cnt):
-        self.modCnt = cnt
 
     def wheelcallback(self, channel):
-        if ((self.numChange % self.modCnt) == 0):
-            self.delT = self.getTimeInMillis() - self.tenTime
-            self.tenTime = self.getTimeInMillis()
-            self.speedList.append((self.delT,
-                                   int(self.power)))
-        else:
-            self.numChange += 1
-
-#        GPIO.setmode(GPIO.BCM)
-#        GPIO.setup(self.encPin, GPIO.IN)
-#        t = self.getTimeInMillis() - self.missionStart
-#        
-#        if ((self.numChange % 10) == 0):
-#            self.delT = t - self.tenTime
-#            self.speedList.append(("---", self.encPin,
-#                              t, self.delT,
-#                              self.numChange))
-#            self.tenTime = t
-            
-#        self.numChange += 1
-#         lastTime = t
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.encPin, GPIO.IN)
+        t = self.getTimeInMillis() - self.missionStart
+        
+        if ((self.numChange % 10) == 0):
+            self.delT = t - self.tenTime
+            self.speedList.append(("---", self.encPin,
+                              t, self.delT,
+                              self.numChange))
+            self.tenTime = t
+        self.numChange += 1
+        r = 0
+        if(GPIO.input(self.encPin) == True):
+            r = 1
+#        if(numChange  > totChange):
+#           wheel.stop()
+        lastTime = t

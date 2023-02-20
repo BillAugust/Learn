@@ -1,0 +1,8 @@
+List of deletables
+attempt.txt
+CompassCal.py
+CompassMotoOld.py
+cv2probe.py
+D1.* kill all D1
+KBintrProbe.py
+LightTest.py
