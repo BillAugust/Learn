@@ -1,0 +1,14 @@
+18(12) > enA
+27(13) > rtw data
+Gr(14) > bb grnd
+22(15) > ltw data
+pw(17) > bb 3.3 power
+10(19) > in4
+09(21) > in3
+08(24) > in2
+07(26) > in1
+Gr(34) > power on L280 
+19(35) > enB
+Gr{39) > 9v Gnd
+
+//* rtw = right whee data
