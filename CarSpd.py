@@ -5,7 +5,7 @@ import time
 import sys
 leftEncPin = 27
 rightEncPin = 22
-whlLeft = Motor(7, 8, 18, leftEncPin)
+whlLeft = Motor(8, 7, 18, leftEncPin)
 whlRight = Motor(10, 9, 19, rightEncPin)
 warmupTime = 400
 missionLength = 10000 #Total time of mission
@@ -31,8 +31,8 @@ whlRight.stop()
 time.sleep(.5)
 whlLeft.setMissionStart(getTimeInMillis())
 whlRight.setMissionStart(getTimeInMillis())
-leftPower = 99#start power left wheel
-rightPower = 99
+leftPower = 50#start power left wheel
+rightPower = 50
 #start power right wheel
 inc = 1.0
 tooDif = 10#Time dif in millis between wheel delTs

@@ -11,4 +11,4 @@ Gr(34) > Gnd on L280 lg
 19(35) > enB gr
 Gr{39) > 9v Gnd br
 
-//* rtw = right whee data
+//* rtw = right wheel data
