@@ -4,6 +4,10 @@ import RPi.GPIO as GPIO
 import pigpio
 import time
 import sys
+import matplotlib.pyplot as plt
+import numpy as np
+fig,ax = plt.subplots()
+
 GPIO.setmode(GPIO.BCM)
 def getTimeInMillis():
     return (int)(time.time()*1000.0)
@@ -14,8 +18,8 @@ def cmToTicks(cm):
 def degToTicks(deg):
     return deg * 0.23
 
-leftPower = 99#start power left wheel
-rightPower = 99
+leftPower = 0#start power left wheel
+rightPower = 100
 leftEncPin = 22
 rightEncPin = 27
 whlLeft = Motor(7, 8, 18, leftEncPin)
@@ -32,13 +36,57 @@ GPIO.add_event_detect(whlRight.getEncPin(),
 whlLeft.stop()
 whlRight.stop()
 time.sleep(0.5)
-whlLeft.fwd(60)
-whlLeft.fwd(60)
+whlLeft.fwd(0)
+whlRight.fwd(rightPower)
+lastL = 0
+lastR = 0
+start = getTimeInMillis()
+sumSeconds = seconds = 0
+done = False
+cntsL = list()
+cntsR = list()
+xs = list()
+idx = 0
+sumL = sumR = 0
+currentR = currentL = 0
 try:
-    while True:
-        print("Tk ",whlLeft.getTicks(),\
-              whlRight.getTicks())
-        time.sleep(0.5)
+    while (not done):
+        currentL = whlLeft.getTicks()
+        currentR = whlRight.getTicks()
+        deltaL = currentL - lastL
+        deltaR = currentR - lastR
+        sumL = deltaL + sumL
+        sumR = deltaR + sumR
+#        print("Tk ",currentL,deltaL,\
+#               currentR,deltaR)
+        lastL = currentL
+        lastR = currentR
+        time.sleep(1)
+        seconds += 1
+        if seconds == 5:
+            sumSeconds += 5
+            seconds = 0
+            leftPower = 5
+            rightPower -= 5
+            whlLeft.fwd(0)
+            whlRight.fwd(rightPower)
+            if(leftPower < 5 or\
+               rightPower < 5):
+                done = True
+            print (sumSeconds, leftPower, rightPower, sumR)
+            cntsL.append(deltaL)
+            cntsR.append(deltaR)
+            xs.append(sumSeconds)
+    whlLeft.stop()
+    whlRight.stop()
+    print("done")
+    dcntsL = np.array(cntsL)
+    dcntsR = np.array(cntsR)
+    dsecs = np.array(xs)
+    print("^c terminates")
+    ax.plot(dsecs,dcntsR)
+    plt.show()
+    sys.exit()
 except KeyboardInterrupt:
     whlLeft.stop()
     whlRight.stop()

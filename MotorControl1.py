@@ -148,9 +148,9 @@ class MotorControl1:
     def wheelcallback(self, channel):
         self.numChange += 1
         self.sumPower += self.power
-        print(self.modCnt)
+        #print(self.modCnt)
 
-        if ((self.numChange % self.modCnt) == 1):
+        if ((self.numChange % self.modCnt) == 0):
             delT = self.getTimeInMillis() - self.tenTime
             if(abs(delT) > 150):
                 self.tenTime = self.getTimeInMillis()

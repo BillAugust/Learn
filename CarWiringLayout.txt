@@ -1,14 +1,16 @@
+pw(01) > ltw cntr power 3.3v
 18(12) > enA wh
-27(13) > rtw data bl
-Gr(14) > bb grnd lg
-22(15) > ltw data gr
-pw(17) > bb 3.3 power yl
-10(19) > in4 bk
-09(21) > in3 wh
+27(13) > rtw cntr data 
+Gr(14) > ltw cntr grnd 
+22(15) > ltw cntr data grn
+pw(17) > rtw cntr power 3.3v 
+10(19) > in4 gr
+Gr(20) > 
+09(21) > in3 or
 08(24) > in2 lg
 07(26) > in1 pr
 Gr(34) > Gnd on L280 lg
-19(35) > enB gr
+19(35) > enB wh
 Gr{39) > 9v Gnd br
 
 //* rtw = right wheel data
